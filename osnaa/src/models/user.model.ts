@@ -25,7 +25,12 @@ export class User extends Entity {
   @property({
     type: 'string',
   })
-  realm?: string;
+  firstname?: string;
+
+  @property({
+    type: 'string',
+  })
+  lastname?: string;
 
   // must keep it
   @property({
@@ -45,14 +50,9 @@ export class User extends Entity {
   email: string;
 
   @property({
-    type: 'boolean',
-  })
-  emailVerified?: boolean;
-
-  @property({
     type: 'string',
   })
-  verificationToken?: string;
+  role?: string;
 
   @hasOne(() => UserCredentials)
   userCredentials: UserCredentials;

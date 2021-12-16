@@ -1,23 +1,19 @@
 import {AuthenticationComponent} from '@loopback/authentication';
 import {
-  JWTAuthenticationComponent,
-  MyUserService,
-  UserServiceBindings
+  JWTAuthenticationComponent, UserServiceBindings
 } from '@loopback/authentication-jwt';
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
-import {
-  RestExplorerBindings,
-  RestExplorerComponent
-} from '@loopback/rest-explorer';
+import {RestExplorerBindings, RestExplorerComponent} from '@loopback/rest-explorer';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MysqlDataSource} from './datasources';
+import {UserCredentialsRepository, UserRepository} from './repositories';
 // import {UsersRepository} from './repositories';
 import {MySequence} from './sequence';
-
+import {MyUserService} from './services/custom-user-service.service';
 
 export {ApplicationConfig};
 
@@ -61,12 +57,10 @@ export class OsnaaApplication extends BootMixin(
     this.dataSource(MysqlDataSource, UserServiceBindings.DATASOURCE_NAME);
     // ------------- END OF SNIPPET -------------
 
-    //new
-    this.bind(UserServiceBindings.USER_SERVICE).toClass(MyUserService);
+    // this.bind(UserServiceBindings.USER_SERVICE).toClass(MyUserService);
 
-    // Bind user and credentials repository
-    // this.bind(UserServiceBindings.USER_REPOSITORY).toClass(
-    //   UsersRepository,
-    // )
+    this.bind(UserServiceBindings.USER_SERVICE).toClass(MyUserService);
+    this.bind(UserServiceBindings.USER_REPOSITORY).toClass( UserRepository, );
+    this.bind(UserServiceBindings.USER_CREDENTIALS_REPOSITORY).toClass( UserCredentialsRepository, );
   }
 }
